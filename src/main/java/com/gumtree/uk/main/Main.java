@@ -31,9 +31,9 @@ public class Main
         System.out.println( "How many males are in the address book?" );
         System.out.println( "Number of males: " + numOfMales );
 
-//        Person oldest = service.findOldestPerson( addressBook );
-//        System.out.println( "Who is the oldest person in the address book? " );
-//        System.out.println( "Oldest person: " + oldest.getFullName() );
+        Person oldest = service.findOldestPerson( addressBook );
+        System.out.println( "Who is the oldest person in the address book? " );
+        System.out.println( "Oldest person: " + oldest.getName() + " " + oldest.getSurname() );
 
         int dayDiff = service.calculateDayDifferenceBetweenDateOfBirth( addressBook, "Bill", "Paul" );
         System.out.println( "How many days older is Bill than Paul?" );

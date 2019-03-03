@@ -36,7 +36,7 @@ public interface LookupAddressBookService
      * @return The person in the address book with the specified name
      * @throws RuntimeException Person not found for the specified name
      */
-    Person searchPersonByName( List<Person> addressBook, String name );
+    Person findPersonByName( List<Person> addressBook, String name );
 
     /**
      * Calculate the difference in term of days between two people in the address book.
@@ -49,7 +49,11 @@ public interface LookupAddressBookService
      */
     int calculateDayDifferenceBetweenDateOfBirth( List<Person> addressBook, String person, String person2 );
 
+    /**
+     * Return the oldest person in the address book list comparing the date of birth
+     *
+     * @param addressBook List of elements defined in a address book
+     * @return Null if the list is empty or null, the oldest person otherwise
+     */
     Person findOldestPerson( List<Person> addressBook );
-
-    Person findYoungestPerson( List<Person> addressBook );
 }

@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,9 +80,9 @@ public class LookupAddressBookServiceTest
      * Test that there is a person in the address book with the specified name
      */
     @Test
-    public void searchPersonByName_FoundSingle_Test()
+    public void findPersonByName_FoundSingle_Test()
     {
-        Person person = service.searchPersonByName( addressBook, "Paul" );
+        Person person = service.findPersonByName( addressBook, "Paul" );
         Assert.assertEquals( "Name", person.getName(), "Paul" );
         Assert.assertEquals( "Surname", person.getSurname(), "Robinson" );
     }
@@ -90,11 +91,11 @@ public class LookupAddressBookServiceTest
      * Test that an exception is thrown if there is no element in the address book with the specified name
      */
     @Test
-    public void searchPersonByName_PersonNotFound_Test()
+    public void findPersonByName_PersonNotFound_Test()
     {
         try
         {
-            service.searchPersonByName( addressBook, "Linda" );
+            service.findPersonByName( addressBook, "Linda" );
             Assert.fail( "Expected a Runtime Exception" );
         }
         catch ( RuntimeException e )
@@ -129,4 +130,45 @@ public class LookupAddressBookServiceTest
 
         Assert.assertEquals( "Day difference", 0, dayDiff );
     }
+
+    /**
+     * Test that the code return NUll if the address book is empty
+     */
+    @Test
+    public void findOldestPerson_emptyList_Test()
+    {
+        List<Person> list = new ArrayList<>(  );
+        Person person = service.findOldestPerson( list );
+        Assert.assertNull( person );
+    }
+
+    /**
+     * Test that the code return NUll if the address book is equals to null
+     */
+    @Test
+    public void findOldestPerson_NullList_Test()
+    {
+        List<Person> list = null;
+        Person person = service.findOldestPerson( list );
+        Assert.assertNull( person );
+    }
+
+    /**
+     * Test return the oldest person in the address book comparing the date of birth
+     */
+    @Test
+    public void findOldestPerson_OldestPerson_Test()
+    {
+        Person person = service.findOldestPerson( addressBook );
+        Assert.assertNotNull( person );
+        Assert.assertEquals("name", "Pauline", person.getName() );
+        Assert.assertEquals( "surname","Jackson", person.getSurname() );
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern( "dd/MM/yy" );
+        Assert.assertEquals( "Date of Birth", "14/08/74", person.getDateOfBirth().format( formatter ) );
+
+        Assert.assertEquals( "Gender","MALE", person.getGender().toString() );
+
+    }
+
 }

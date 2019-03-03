@@ -4,6 +4,8 @@ import com.gumtree.uk.entity.Gender;
 import com.gumtree.uk.entity.Person;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,8 @@ public class LookupAddressBookServiceImpl implements LookupAddressBookService
     @Override
     public int calculateDayDifferenceBetweenDateOfBirth( List<Person> addressBook, String name, String name2 )
     {
-        Person first = searchPersonByName( addressBook, name );
-        Person second = searchPersonByName( addressBook, name2 );
+        Person first = findPersonByName( addressBook, name );
+        Person second = findPersonByName( addressBook, name2 );
 
         if ( first.getDateOfBirth().isBefore( second.getDateOfBirth() ) )
             return (int)ChronoUnit.DAYS.between( first.getDateOfBirth(), second.getDateOfBirth() );
@@ -54,7 +56,7 @@ public class LookupAddressBookServiceImpl implements LookupAddressBookService
     }
 
     @Override
-    public Person searchPersonByName( List<Person> addressBook, String name )
+    public Person findPersonByName( List<Person> addressBook, String name )
     {
         Optional<Person> person = addressBook.stream().filter( p -> p.getName().equals( name ) ).findFirst();
         if ( person.isPresent() )
@@ -66,12 +68,11 @@ public class LookupAddressBookServiceImpl implements LookupAddressBookService
     @Override
     public Person findOldestPerson( List<Person> addressBook )
     {
-        return null;
+        if ( addressBook == null || addressBook.isEmpty() )
+            return null;
+
+        addressBook.sort( Comparator.comparing( p -> p.getDateOfBirth(), Comparator.naturalOrder() ) );
+        return addressBook.get( 0 );
     }
 
-    @Override
-    public Person findYoungestPerson( List<Person> addressBook )
-    {
-        return null;
-    }
 }
