@@ -2,10 +2,12 @@ package com.gumtree.uk.main;
 
 import com.gumtree.uk.entity.Gender;
 import com.gumtree.uk.entity.Person;
+import com.gumtree.uk.service.AddressBookScannerImpl;
 import com.gumtree.uk.service.LookupAddressBookService;
 import com.gumtree.uk.service.LookupAddressBookServiceImpl;
-import com.gumtree.uk.utils.AddressBookScanner;
+import com.gumtree.uk.service.AddressBookScanner;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,10 +18,12 @@ import java.util.List;
  */
 public class Main
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws IOException
     {
+        AddressBookScanner scanner = new AddressBookScannerImpl();
+
         String fileName = "addressbook.txt";
-        List<Person> addressBook = AddressBookScanner.scanAddressBookFile( fileName );
+        List<Person> addressBook = scanner.scanAddressBookFile( fileName );
 
         LookupAddressBookService service = new LookupAddressBookServiceImpl();
 
@@ -27,12 +31,12 @@ public class Main
         System.out.println( "How many males are in the address book?" );
         System.out.println( "Number of males: " + numOfMales );
 
-/*        Person oldest = service.findOldestPerson( addressBook );
-        System.out.println( "Who is the oldest person in the address book? " );
-        System.out.println( "Oldest person: " + oldest.getFullName() );
+//        Person oldest = service.findOldestPerson( addressBook );
+//        System.out.println( "Who is the oldest person in the address book? " );
+//        System.out.println( "Oldest person: " + oldest.getFullName() );
 
         int dayDiff = service.calculateDayDifferenceBetweenDateOfBirth( addressBook, "Bill", "Paul" );
         System.out.println( "How many days older is Bill than Paul?" );
-        System.out.println( "Difference: " + dayDiff + " day" + ( dayDiff > 1 ? "s" : "" ) );*/
+        System.out.println( "Difference: " + dayDiff + " day" + ( dayDiff > 1 ? "s" : "" ) );
     }
 }

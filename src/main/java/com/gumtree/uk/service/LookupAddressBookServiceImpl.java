@@ -3,27 +3,20 @@ package com.gumtree.uk.service;
 import com.gumtree.uk.entity.Gender;
 import com.gumtree.uk.entity.Person;
 
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Class tha represents the implementation of the <tt>LookupAddressBookService</tt> interface.
+ *
  * @see LookupAddressBookService
  */
 public class LookupAddressBookServiceImpl implements LookupAddressBookService
 {
-    public LookupAddressBookServiceImpl()
-    {
-    }
-
-    @Override
-    public Integer calculateDayDifferenceBetweenDateOfBirth( List<Person> addressBook, String name , String name2 )
-    {
-        return null;
-    }
-
     @Override
     public Map<Gender, List<Person>> mapPersonByGender( List<Person> addressBook )
     {
@@ -47,9 +40,27 @@ public class LookupAddressBookServiceImpl implements LookupAddressBookService
     }
 
     @Override
-    public Person searchPersonByName( String name )
+    public int calculateDayDifferenceBetweenDateOfBirth( List<Person> addressBook, String name, String name2 )
     {
-        return null;
+        Person first = searchPersonByName( addressBook, name );
+        Person second = searchPersonByName( addressBook, name2 );
+
+        if ( first.getDateOfBirth().isBefore( second.getDateOfBirth() ) )
+            return (int)ChronoUnit.DAYS.between( first.getDateOfBirth(), second.getDateOfBirth() );
+        else if ( first.getDateOfBirth().isAfter( second.getDateOfBirth() ) )
+            return (int)ChronoUnit.DAYS.between( second.getDateOfBirth(), first.getDateOfBirth() );
+        else
+            return 0;
+    }
+
+    @Override
+    public Person searchPersonByName( List<Person> addressBook, String name )
+    {
+        Optional<Person> person = addressBook.stream().filter( p -> p.getName().equals( name ) ).findFirst();
+        if ( person.isPresent() )
+            return person.get();
+        else
+            throw new RuntimeException( "Person with name " + name + " not found in the address book" );
     }
 
     @Override

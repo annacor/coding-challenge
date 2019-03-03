@@ -8,7 +8,8 @@ import java.time.LocalDate;
 public class Person
 {
 
-    private String fullName;
+    private String name;
+    private String surname;
     private Gender gender;
     private LocalDate dateOfBirth;
 
@@ -16,14 +17,32 @@ public class Person
     {
     }
 
-    public String getFullName()
+    public Person( String name, String surname, Gender gender, LocalDate dateOfBirth )
     {
-        return fullName;
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void setFullName( String fullName )
+    public String getName()
     {
-        this.fullName = fullName;
+        return name;
+    }
+
+    public void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public String getSurname()
+    {
+        return surname;
+    }
+
+    public void setSurname( String surname )
+    {
+        this.surname = surname;
     }
 
     public Gender getGender()
@@ -45,5 +64,4 @@ public class Person
     {
         this.dateOfBirth = dateOfBirth;
     }
-
 }
