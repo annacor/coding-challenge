@@ -3,7 +3,7 @@ package com.gumtree.uk.entity;
 import java.time.LocalDate;
 
 /**
- * Object Person that represents all the information of a single item in the address book
+ * Object Person that represents the information of a single item in the address book
  */
 public class Person
 {

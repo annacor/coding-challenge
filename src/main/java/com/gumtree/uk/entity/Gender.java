@@ -1,7 +1,8 @@
 package com.gumtree.uk.entity;
 
 /**
- * Enumeration class that represent the typology of gender of a person
+ * Enumeration class that represent the person gender
+ * MALE and FEMALE are the only values accepted
  */
 public enum Gender
 {
